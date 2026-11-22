@@ -8,7 +8,7 @@ from osworld_science.vm.snapshots import SnapshotRegistry
 
 
 def test_task_count_and_domains(taskset):
-    assert taskset.domains() == ["biomed", "chem", "econ", "eeg", "geoscience", "linguistics", "physics", "stat"]
+    assert taskset.domains() == ["biomed", "chem", "econ", "eeg", "geoscience", "linguistics", "physics", "stat", "stm"]
     assert len(taskset.ids("stat")) == 20
     # 2 Praat VOT + the two review-graded LING450 labs: Hoosier phonotactics (R in RKWard) and
     # fixed-recording vowel duration (Praat, RKWard, Writer)
@@ -18,8 +18,10 @@ def test_task_count_and_domains(taskset):
     assert len(taskset.ids("eeg")) == 10                                      # EEGLAB terminal-science workflows
     assert len(taskset.ids("geoscience")) == 6                                  # six QGIS remote sensing tasks
     assert len(taskset.ids("physics")) == 31  # 14 OpenFOAM OF-xxx + 3 CIAO/DS9 chandra-* + 14 Ansys Fluent FT/FV-xxx
+    assert len(taskset.ids("stm")) == 3                                         # STM-Bench P4 single-atom positioning, stm_p4_atom_01..03
     # the 162 of the published dataset (two of them linguistics) + the local-only linguistics labs counted above
-    assert len(taskset) - len(taskset.ids("linguistics")) == 160
+    # + the three stm tasks
+    assert len(taskset) - len(taskset.ids("linguistics")) == 163
 
 
 def test_every_task_validates(taskset, settings):
@@ -64,6 +66,8 @@ def test_snapshots_config(settings):
     ports = [reg[n].default_port for n in reg.names()]
     assert econ.default_port == 5170 and len(ports) == len(set(ports))   # no two snapshots share a default port
     assert reg["ansys_win10_fluent2026r1"].domain == "physics"
+    stm = reg["ubuntu_stm"]                                        # provision null: the build needs the private task list, which a reset does not have
+    assert stm.domain == "stm" and stm.image == "ubuntu_stm.qcow2" and stm.default_port == 5190 and stm.provision is None
 
 
 def test_models_config_resolves_with_fake_env(settings):
