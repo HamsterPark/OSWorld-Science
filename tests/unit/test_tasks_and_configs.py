@@ -18,10 +18,12 @@ def test_task_count_and_domains(taskset):
     assert len(taskset.ids("eeg")) == 10                                      # EEGLAB terminal-science workflows
     assert len(taskset.ids("geoscience")) == 6                                  # six QGIS remote sensing tasks
     assert len(taskset.ids("physics")) == 31  # 14 OpenFOAM OF-xxx + 3 CIAO/DS9 chandra-* + 14 Ansys Fluent FT/FV-xxx
-    assert len(taskset.ids("stm")) == 3                                         # STM-Bench P4 single-atom positioning, stm_p4_atom_01..03
+    # STM-Bench: P4 single-atom positioning stm_p4_atom_01..03, P3 quantum corral stm_p3_corral_01..03 and
+    # stm_p3_corral_repair_01..03
+    assert len(taskset.ids("stm")) == 9
     # the 162 of the published dataset (two of them linguistics) + the local-only linguistics labs counted above
-    # + the three stm tasks
-    assert len(taskset) - len(taskset.ids("linguistics")) == 163
+    # + the nine stm tasks
+    assert len(taskset) - len(taskset.ids("linguistics")) == 169
 
 
 def test_every_task_validates(taskset, settings):

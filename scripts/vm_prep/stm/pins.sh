@@ -3,8 +3,9 @@
 
 # The delivered STM-Bench commit: the instrument in the guest and the grader image are built from the same one,
 # because a replay is only the recorded episode when code and numerics are identical.
-# Set to the delivery commit (1740614e53db...); override with the environment.
-STM_COMMIT=${STM_COMMIT:-1740614e53db615b025013f974bd36a37ed1f823}
+# Set to the delivery commit (777bdcbda83d..., P4 and P3; the first delivery, P4 only, was 1740614e53db...);
+# override with the environment.
+STM_COMMIT=${STM_COMMIT:-777bdcbda83d8ac9c6ea09165f0bdde0eaf71f25}
 STM_REPO_URL=${STM_REPO_URL:-https://github.com/HamsterPark/STM-Bench.git}
 
 # python-build-standalone (astral-sh), CPython 3.13 "install_only" build for glibc x86-64; the sha256 is the release's
